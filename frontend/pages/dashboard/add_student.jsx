@@ -148,10 +148,10 @@ export default function AddStudent() {
   
   // React Query hook for creating students
   const createStudentMutation = useCreateStudent();
-  const phoneCheck = useCheckStudentPhone(form.phone);
+  const phoneCheck = useCheckStudentPhone(form.phone, null, { enabled: isNational });
   const phoneReady = formatPhoneForDB(form.phone).length >= 11;
-  const phoneTaken = phoneReady && !phoneCheck.isLoading && phoneCheck.data?.exists === true;
-  const phoneAvailable = phoneReady && !phoneCheck.isLoading && phoneCheck.data?.exists === false;
+  const phoneTaken = isNational && phoneReady && !phoneCheck.isLoading && phoneCheck.data?.exists === true;
+  const phoneAvailable = isNational && phoneReady && !phoneCheck.isLoading && phoneCheck.data?.exists === false;
 
   // Check if student ID is available
   const checkStudentId = async (id) => {
@@ -208,7 +208,7 @@ export default function AddStudent() {
     if (!isNational && !form.grade?.trim()) return false;
     if (!form.course?.trim()) return false;
     if (!isNational && !form.courseType?.trim()) return false;
-    if (!form.school?.trim()) return false;
+    if (isNational && !form.school?.trim()) return false;
     if (!isPhoneFilled(form.phone) || !isPhoneFilled(form.parentsPhone)) return false;
     if (!form.main_center?.trim()) return false;
     if (!form.account_state?.trim()) return false;
@@ -219,18 +219,18 @@ export default function AddStudent() {
     areRequiredFieldsFilled() &&
     !createStudentMutation.isPending &&
     !phoneTaken &&
-    !(phoneReady && phoneCheck.isLoading);
+    !(isNational && phoneReady && phoneCheck.isLoading);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess(false);
 
-    if (phoneTaken) {
+    if (isNational && phoneTaken) {
       setError("This phone number is already used, please use another one");
       return;
     }
-    if (phoneReady && (phoneCheck.isLoading || !phoneCheck.data)) {
+    if (isNational && phoneReady && (phoneCheck.isLoading || !phoneCheck.data)) {
       setError("Please wait while we check the phone number");
       return;
     }
@@ -911,14 +911,14 @@ Best regards
             </div>
             )}
             <div className="form-group">
-              <label>School <span style={{color: 'red'}}>*</span></label>
+              <label>School {isNational && <span style={{color: 'red'}}>*</span>}</label>
               <input
                 className="form-input"
                 name="school"
                 placeholder="Enter student's school"
                 value={form.school}
                 onChange={handleChange}
-                required
+                required={isNational}
                 autocomplete="off"
               />
             </div>

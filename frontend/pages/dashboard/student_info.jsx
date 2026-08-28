@@ -1362,7 +1362,7 @@ export default function StudentInfo() {
               )}
                 <div className="detail-item">
                 <div className="detail-label">School</div>
-                <div className="detail-value">{currentStudent.school || 'N/A'}</div>
+                <div className="detail-value">{currentStudent.school || 'No School'}</div>
                 </div>
               {isPaymentSystemEnabled && (
                 <div className="detail-item">

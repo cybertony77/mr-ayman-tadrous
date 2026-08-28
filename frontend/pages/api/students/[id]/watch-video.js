@@ -10,7 +10,7 @@ import {
   getFreeViewsRemaining,
   attendedInCenter,
 } from '../../../../lib/onlineSessionViewing';
-import { formatEgyptDateTime } from '../../../../lib/egyptDateTime';
+import { formatEgyptDateTime, formatEgyptAttendance } from '../../../../lib/egyptDateTime';
 
 function loadEnvConfig() {
   try {
@@ -379,7 +379,7 @@ export default async function handler(req, res) {
       const lesson = session.lesson;
       if (lesson && lesson.trim()) {
         const attendanceDate = formatDate(new Date());
-        const attendanceString = `${attendanceDate} in Online`;
+        const attendanceString = formatEgyptAttendance(new Date(), 'Online');
 
         const lessonPatch = {
           attended: true,
