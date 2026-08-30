@@ -600,6 +600,12 @@ export default async function handler(req, res) {
       
       // Initialize mockExams array (50 exams, all null by default)
       const mockExamsArray = mockExams || Array(50).fill(null).map(() => ({
+        mathDegree: null,
+        mathOutOf: null,
+        mathPercentage: null,
+        englishDegree: null,
+        englishOutOf: null,
+        englishPercentage: null,
         examDegree: null,
         outOf: null,
         percentage: null,
