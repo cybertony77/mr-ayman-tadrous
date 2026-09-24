@@ -119,7 +119,7 @@ function Preloader({ background }) {
           width: '50px',
           height: '50px',
           border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderTop: '4px solid #1FA8DC',
+          borderTop: '4px solid #63eff5',
           borderRadius: '50%',
           animation: 'spin 1s linear infinite'
         }} />
